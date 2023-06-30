@@ -23,8 +23,14 @@
         <div class="container w-100" style="height: calc(100% - 100px);">
             <div class="d-flex justify-content-center align-items-center w-100" style="height: calc(100% - 100px);">
                 <div class="row w-100" style="height: calc(100% - 100px);">
-                    <div class="col-6 d-flex justify-content-center align-items-center">
+                    <div class="col-6 d-flex justify-content-center align-items-center flex-column">
                         <div class="playerElement d-flex justify-content-center align-items-center"></div>
+                        <div class="mt-2">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="inputGroup" aria-describedby="inputGroup" placeholder="Ссылка на видео">
+                                <button class="btn btn-outline-secondary" type="button" id="inputGroupButton">заменить</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-6 d-flex justify-content-center align-items-center">
                         <div class="canvasElement"></div>
@@ -41,6 +47,7 @@
                         <div class="px-3">Лиц в кадре:<span id="faces">0</span></div> |
                         <div class="px-3">Пол: <span id="gender"></span></div>|
                         <div class="px-3">Возраст: <span id="age"></span></div>
+                        <div class="px-3">Эмоция: <span id="emotion"></span></div>
                     </div>
                 </div>
             </div>
@@ -56,6 +63,10 @@
             canvasDiv: canvasDiv,
             videoUrl: 'https://vjs.zencdn.net/v/oceans.mp4'
         })
+        document.querySelector('#inputGroupButton').addEventListener('click', () => {
+            const value = document.querySelector('#inputGroup').value
+            BICWeb.changeVideo(String(value))
+        })
         setInterval(() => {
             document.getElementById('attention').textContent = ` ${BICWeb.indixesAttentionValue}`
             document.getElementById('sessionTime').textContent = ` ${Math.round(BICWeb.sessionTime / 1000)}`
@@ -63,6 +74,7 @@
             document.getElementById('faces').textContent = ` ${indexes[0]?.indexes[0].faces || 0}`
             document.getElementById('age').textContent = ` ${indexes[0]?.indexes[0].gender || ''}`
             document.getElementById('gender').textContent = ` ${indexes[0]?.indexes[0].age || ''}`
+            document.getElementById('emotion').textContent = ` ${indexes[0]?.indexes[0].emotion || ''}`
         }, 500)
     </script>
 </body>
