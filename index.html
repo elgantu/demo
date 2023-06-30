@@ -35,14 +35,12 @@
         <div class="d-flex justify-content-center align-items-center w-100" style="height: 100px; background-color: #000;">
             <div class="container">
                 <div class="row w-100">
-                    <div class="col text-white">
-                        Индекс внимательности:<span id="attention">0</span>
-                    </div>
-                    <div class="col text-white">
-                        Длительность сессии, сек.:<span id="sessionTime">0</span>
-                    </div>
-                    <div class="col text-white">
-                        Лиц в кадре.:<span id="faces">0</span>
+                    <div class="col text-white d-flex justify-content-center align-items-center">
+                        <div class="px-3">Индекс внимательности:<span id="attention">0</span></div>|
+                        <div class="px-3">Длительность сессии, сек.:<span id="sessionTime">0</span></div> |
+                        <div class="px-3">Лиц в кадре:<span id="faces">0</span></div> |
+                        <div class="px-3">Пол: <span id="gender"></span></div>|
+                        <div class="px-3">Возраст: <span id="age"></span></div>
                     </div>
                 </div>
             </div>
@@ -61,7 +59,10 @@
         setInterval(() => {
             document.getElementById('attention').textContent = ` ${BICWeb.indixesAttentionValue}`
             document.getElementById('sessionTime').textContent = ` ${Math.round(BICWeb.sessionTime / 1000)}`
-            document.getElementById('faces').textContent = ` ${BICWeb.sessionIndexes.filter(item=>item.second == Math.floor(BICWeb.sessionTime / 1000 - 1))[0]?.indexes[0].faces || 0}`
+            const indexes = BICWeb.sessionIndexes.filter(item => item.second == Math.floor(BICWeb.sessionTime / 1000 - 1)) || undefined
+            document.getElementById('faces').textContent = ` ${indexes[0]?.indexes[0].faces || 0}`
+            document.getElementById('age').textContent = ` ${indexes[0]?.indexes[0].gender || ''}`
+            document.getElementById('gender').textContent = ` ${indexes[0]?.indexes[0].age || ''}`
         }, 500)
     </script>
 </body>
